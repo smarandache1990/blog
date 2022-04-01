@@ -1,6 +1,6 @@
 <h1>Articles</h1>
 
-Our blog has <%= Article.public_count %> articles and counting!
+<p>Our blog has <%= Article.public_count.to_s %> article<%= "'s" if Article.public_count > 1 %>  and counting!</p>
 
 <ul>
   <% @articles.each do |article| %>
