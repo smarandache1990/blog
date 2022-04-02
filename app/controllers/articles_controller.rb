@@ -1,5 +1,7 @@
 class ArticlesController < ApplicationController
 
+  before_action :authenticate_user!, only: [:new, :create]
+
   #http_basic_authenticate_with name: "dhh", password: "secret", except: [:index, :show]
 
   def index
@@ -8,6 +10,7 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
+    @article.update(views: @article.views + 1)
   end
 
   def new
