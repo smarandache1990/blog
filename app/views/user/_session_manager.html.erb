@@ -1,7 +1,7 @@
 <% if current_user %>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Dropdown
+            <%= current_user.name %>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarDropdown">
         <li><%= link_to "New Article", new_article_url, class:"nav-link" %></li>
@@ -10,7 +10,8 @@
         <li> <%= link_to "Logout", destroy_user_session_url, data: {
             turbo_method: :delete,
             turbo_confirm: "Are you sure you want to log out?"
-        } %> </li>
+        }, class:"nav-link" %> </li>
+        <li> <%= link_to "Edit Account", edit_user_registration_url,  class:"nav-link" %> </li>
         </ul>
     </li>
 <% else %>

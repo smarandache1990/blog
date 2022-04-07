@@ -1,12 +1,13 @@
 class Article < ApplicationRecord
-    include Visible
+  include Visible
 
-    belongs_to :user
-    has_many :comments, dependent: :destroy
-  
-    validates :title, presence: true
-    validates :body, presence: true, length: { minimum: 10 }
+  belongs_to :user
+  has_many :comments, dependent: :destroy
 
-    delegate :email, to: :user, prefix: true
-  end
+  validates :title, presence: true
+  validates :body, presence: true, length: { minimum: 10 }
+
+  delegate :email, to: :user, prefix: true
+  delegate :name, to: :user, prefix: true
+end
   

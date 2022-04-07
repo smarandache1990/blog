@@ -2,10 +2,8 @@ class ArticlesController < ApplicationController
 
   before_action :authenticate_user!, only: [:new, :create]
 
-  #http_basic_authenticate_with name: "dhh", password: "secret", except: [:index, :show]
-
   def index
-    @articles = Article.all
+    @articles = Article.all.order(:created_at => :desc)
   end
 
   def show
@@ -19,6 +17,7 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.new(article_params)
+    @article.user = current_user
 
     if @article.save
       redirect_to @article
@@ -43,13 +42,23 @@ class ArticlesController < ApplicationController
 
   def destroy
     @article = Article.find(params[:id])
-    @article.destroy
 
-    redirect_to root_path, status: :see_other
+    if ownership_check(@article.user)
+      @article.destroy
+      redirect_to root_path, status: :see_other
+    else
+      redirect_to @article, status: :unprocessable_entity, notice: "You cant destroy what doesn't belong to you!"
+    end
+
   end
 
   private
     def article_params
       params.require(:article).permit(:title, :body, :status)
     end
+
+    def ownership_check(user)
+      true ; false if user == current_user
+    end
+    
 end
