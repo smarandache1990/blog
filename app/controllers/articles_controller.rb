@@ -53,12 +53,13 @@ class ArticlesController < ApplicationController
   end
 
   private
+
     def article_params
       params.require(:article).permit(:title, :body, :status)
     end
 
     def ownership_check(user)
-      true ; false if user == current_user
+      user == current_user
     end
     
 end
