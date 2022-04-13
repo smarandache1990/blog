@@ -1,26 +1,37 @@
-<% unless comment.private? || comment.archived? %>
 
-  <p>
-    <strong>Commenter:</strong>
-    <%= comment.commenter %>
-  </p>
+  <% unless comment.private? || comment.archived? || comment.id == nil %>
 
-  <p>
-    <strong>Comment:</strong>
-    <%= comment.body %>
-  </p>
+    <div class="p-5 mb-4 bg-light rounded-3">
+        
+      <div class="container-fluid py-5 rounded-3">
 
-  <% if comment.user == current_user %>
-    <p>
-      <%= link_to "Delete", [comment.article, comment], data: {
-                    turbo_method: :delete,
-                    turbo_confirm: "Are you sure?"
-                  } %>
-    </p>|
-    <p>
-      <%= link_to "Edit", edit_article_comment_url(@article) %>
-    </p>
+        <h2 class="display-5 fw-bold"> <strong> <%= comment.commenter %> </strong> </h2>
+
+        <p class="col-md-8 fs-4">
+          <%= comment.body %>
+          <%#= comment.body_media %>
+        </p>
+        <hr>
+
+        <% if comment.updated_at - comment.created_at > 1 %>
+          <span>Edited <%= time_ago_in_words(comment.updated_at) %> ago.</span>
+        <% end %>
+
+        <span>Posted <%= time_ago_in_words(comment.created_at) %>.</span>
+
+        <% if comment.user == current_user %>
+          <%= link_to "Delete", [comment.article, comment], data: {
+                        turbo_method: :delete,
+                        turbo_confirm: "Are you sure?"
+                      }, class:"btn btn-secondary btn-sm" %>
+
+          <%= link_to "Edit", edit_article_comment_url(@article), class:"btn btn-primary btn-sm" %>
+          
+        <% end %>
+
+      </div>
+
+    </div>
+
   <% end %>
-
-<% end %>
 
